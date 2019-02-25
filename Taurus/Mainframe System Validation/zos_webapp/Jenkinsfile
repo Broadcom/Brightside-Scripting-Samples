@@ -1,0 +1,25 @@
+pipeline {
+    environment {
+        BASE_URL ="http://yourAppHost:port"
+    }    
+    
+    stages {
+        stage('Preparation') { 
+           // Get your code from a Git repository
+           git '...'
+        }
+ 
+        stage('Performance Test') {
+            steps {
+                sh "bzt -o settings.env.BASE_URL=${BASE_URL} -o settings.env.REPORT_NAME=Jenkins_Build_${BUILD_NUMBER} perftest.yml"
+            }
+        }
+    }
+
+    post {
+        always {
+            junit allowEmptyResults: true, testResults: 'test-results/bzt_test_report.xml'
+            perfReport percentiles: '0,50,90,100', sourceDataFiles: 'test-results/bzt_dump.xml'
+        }
+    }
+}

@@ -1,0 +1,44 @@
+execution:
+- concurrency: 100
+  ramp-up: 10s
+  hold-for: 1m
+  scenario: quick-test
+
+scenarios:
+  quick-test:
+    requests:
+    - ${BASE_URL}/api/v1/myapplication/endpoint
+
+services:
+- module: shellexec
+  prepare:
+  - python3 -u prepare_test_environment.py
+
+settings:
+  artifacts-dir: test-results/%Y-%m-%d_%H-%M-%S.%f
+  env:
+    BASE_URL: https://localhost:10010
+    REPORT_NAME: Master Build
+
+reporting:
+- module: blazemeter
+  report-name: ${REPORT_NAME}
+  test: My Application Performance Test
+  project: Default project
+- module: passfail
+  criteria:
+  - p90>200ms for 10s, stop as failed
+- module: junit-xml
+  filename: test-results/bzt_test_report.xml
+  data-source: pass-fail
+- module: final-stats
+  summary: true  
+  percentiles: true  
+  summary-labels: false 
+  failed-labels: false  
+  test-duration: true  
+  dump-xml: test-results/bzt_dump.xml
+
+modules:
+  blazemeter:
+    token: <API Key Id:API Key Secret>
