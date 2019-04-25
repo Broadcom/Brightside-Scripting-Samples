@@ -1,0 +1,13 @@
+//USER001X  JOB 123456789,
+//  CLASS=A,MSGCLASS=X,MSGLEVEL=(1,1)
+//STEP1   EXEC PGM=AFOLIBR,PARM='NRJS,NJTA'
+//MASTER   DD  DISP=SHR,DSN=PUBLIC.TESTING.MAST
+//OSJOB DD DSN=PUBLIC.TESTING.PDSOUT({{ELEMENT}}),DISP=SHR
+//SYSOUT DD SYSOUT=*
+//SYSPRINT DD SYSOUT=*
+//SYSIN DD DATA,DLM=##
+-OPT UTILITY                                                  
+-INC {{ELEMENT}}                                                   
+-END   
+##
+/* 
