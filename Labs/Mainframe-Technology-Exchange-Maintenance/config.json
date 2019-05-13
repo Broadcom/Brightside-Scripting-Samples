@@ -16,6 +16,6 @@
     "remoteJclPds"       : "USER02.MTE.JCL",
     "runtimeEnv"         : "HLQ.RUN2.SYS",
     "smpeEnv"            : "HLQ.TEST15.SMPE2",
-    "ssmResource1"       : "RESRC01V",
-    "ssmResource2"       : "RESRC01U"
+    "ssmResource1"       : "RESRC02V",
+    "ssmResource2"       : "RESRC02U"
 }
