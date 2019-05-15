@@ -1,0 +1,21 @@
+{
+    "applyMember"        : "APPLY",
+    "applyCheckMember"   : "APPLYCHK",
+    "checkVersionMember" : "CHECKVE",
+    "checkVersionSpoolId": "102",
+    "expectedFixLevel"   : "SO07157",
+    "localFile"          : "SO07157",
+    "localFolder"        : "bin",
+    "maintainedMember"   : "GSVXASRM",
+    "maintainedPds"      : "CNM4BLOD",
+    "receiveMember"      : "RECEIVE",
+    "rejectMember"       : "REJECT",
+    "restoreMember"      : "RESTORE",
+    "remoteFile"         : "SO07157",
+    "remoteFolder"       : "/u/users/user02",
+    "remoteJclPds"       : "USER02.MTE.JCL",
+    "runtimeEnv"         : "HLQ.RUN2.SYS",
+    "smpeEnv"            : "HLQ.TEST15.SMPE2",
+    "ssmResource1"       : "RESRC02V",
+    "ssmResource2"       : "RESRC02U"
+}
