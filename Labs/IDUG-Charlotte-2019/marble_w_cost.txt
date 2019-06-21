@@ -1,0 +1,50 @@
+CREATE DATABASE EVENT      
+        BUFFERPOOL BP2  
+	INDEXBP    BP0         
+        STOGROUP DEM1     
+        CCSID EBCDIC;          
+                               
+ CREATE TABLESPACE MARBLE
+        IN EVENT
+        USING STOGROUP DEM1
+            PRIQTY 48          
+            SECQTY 48          
+            ERASE NO           
+        BUFFERPOOL BP2         
+        CLOSE YES               
+        LOCKMAX SYSTEM         
+	SEGSIZE 4             
+	FREEPAGE 0            
+	PCTFREE 20                   
+	COMPRESS NO           
+	LOCKSIZE ANY	
+	MAXROWS 255           
+	CCSID EBCDIC; 
+  
+  CREATE TABLE EVENT.MARBLE        
+   (                            
+     COLOR VARCHAR(10)  
+       FOR SBCS DATA 	
+       NOT NULL	
+       PRIMARY KEY
+       REFERENCES EVENT.COLOR (COLOR),
+     INVENTORY INTEGER               
+       NOT NULL,
+     COST INTEGER
+       NOT NULL                        
+    )           
+     IN EVENT.MARBLE 
+	APPEND NO                 
+	NOT VOLATILE CARDINALITY  
+	DATA CAPTURE NONE         
+	AUDIT NONE                
+	CCSID EBCDIC;
+
+  CREATE UNIQUE INDEX EVENT.XMARBLE
+     ON EVENT.MARBLE             
+       (COLOR ASC)               
+     USING STOGROUP DEM1         
+       PRIQTY 512                
+       SECQTY 64                 
+       ERASE NO                  
+     BUFFERPOOL BP0;    
