@@ -22,7 +22,7 @@ function awaitJobCompletion(jobId, maxRC=0, callback, tries = 30, wait = 1000) {
   if (tries > 0) {
       sleep(wait);
       cmd.get(
-      'bright jobs view job-status-by-jobid ' + jobId + ' --rff retcode --rft string',
+      'zowe jobs view job-status-by-jobid ' + jobId + ' --rff retcode --rft string',
       function (err, data, stderr) {
           retcode = data.trim();
           //retcode should either be null of in the form CC nnnn where nnnn is the return code
@@ -64,7 +64,7 @@ function simpleCommand(command, callback){
 * @param {awaitJobCallback} callback  function to call after completion
 */
 function submitJob(ds, maxRC=0, callback){
-  var command = 'bright jobs submit data-set "' + ds + '" --rff jobid --rft string'
+  var command = 'zowe jobs submit data-set "' + ds + '" --rff jobid --rft string'
   cmd.get(command, function(err, data, stderr) { 
     if(err){
       callback(err);
@@ -101,14 +101,14 @@ gulp.task('bind-n-grant', 'Bind & Grant Job', function (callback) {
 
 gulp.task('build-cobol', 'Build COBOL element', function (callback) {
   var endevor = (typeof process.env.ENDEVOR === "undefined") ? "" : process.env.ENDEVOR,
-      command = "bright endevor generate element " + config.testElement + " --type COBOL --override-signout --maxrc 0 --stage-number 1 " + endevor;
+      command = "zowe endevor generate element " + config.testElement + " --type COBOL --override-signout --maxrc 0 --stage-number 1 " + endevor;
 
   simpleCommand(command, callback);
 });
 
 gulp.task('build-lnk', 'Build LNK element', function (callback) {
   var endevor = (typeof process.env.ENDEVOR === "undefined") ? "" : process.env.ENDEVOR,
-      command = "bright endevor generate element " + config.testElement + " --type LNK --override-signout --maxrc 0 --stage-number 1 " + endevor;
+      command = "zowe endevor generate element " + config.testElement + " --type LNK --override-signout --maxrc 0 --stage-number 1 " + endevor;
 
   simpleCommand(command, callback);
 });
@@ -117,21 +117,21 @@ gulp.task('build', 'Build Program', gulpSequence('build-cobol','build-lnk'));
 
 gulp.task('cics-refresh', 'Refresh(new-copy) ' + config.cicsProgram + ' CICS Program', function (callback) {
   var cics = (typeof process.env.CICS === "undefined") ? "" : process.env.CICS,
-      command = 'bright cics refresh program "' + config.cicsProgram + '" ' + cics;
+      command = 'zowe cics refresh program "' + config.cicsProgram + '" ' + cics;
 
   simpleCommand(command, callback);
 });
 
 gulp.task('copy-dbrm', 'Copy DBRMLIB to test environment', function (callback) {
   var fmp = (typeof process.env.FMP === "undefined") ? "" : process.env.FMP,
-      command = 'bright file-master-plus copy data-set "' + config.devDBRMLIB + '" "' + config.testDBRMLIB + '" -m ' + config.testElement + ' ' + fmp;
+      command = 'zowe file-master-plus copy data-set "' + config.devDBRMLIB + '" "' + config.testDBRMLIB + '" -m ' + config.testElement + ' ' + fmp;
 
   simpleCommand(command, callback);
 });
 
 gulp.task('copy-load', 'Copy LOADLIB to test environment', function (callback) {
   var fmp = (typeof process.env.FMP === "undefined") ? "" : process.env.FMP,
-      command = 'bright file-master-plus copy data-set "' + config.devLOADLIB + '" "' + config.testLOADLIB + '" -m ' + config.testElement + ' ' + fmp;
+      command = 'zowe file-master-plus copy data-set "' + config.devLOADLIB + '" "' + config.testLOADLIB + '" -m ' + config.testElement + ' ' + fmp;
 
   simpleCommand(command, callback);
 });

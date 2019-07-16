@@ -35,7 +35,7 @@ function awaitJobCompletion(jobId, callback, tries = 30, wait = 1000) {
   if (tries > 0) {
       sleep(wait);
       cmd.get(
-      'bright jobs view job-status-by-jobid ' + jobId + ' --rff retcode --rft string',
+      'zowe jobs view job-status-by-jobid ' + jobId + ' --rff retcode --rft string',
       function (err, data, stderr) {
           retcode = data.trim();
           if (retcode == "CC 0000") {
@@ -61,7 +61,7 @@ function awaitJobCompletion(jobId, callback, tries = 30, wait = 1000) {
 */
 function createMarble(color, quantity=1, cost=1, callback) {
   cmd.get(
-    'bright console issue command "F ' + config.cicsRegion + ',' + config.cicsTran + ' CRE ' + color + " " + quantity + " " + cost + '" --cn ' + config.cicsConsole,
+    'zowe console issue command "F ' + config.cicsRegion + ',' + config.cicsTran + ' CRE ' + color + " " + quantity + " " + cost + '" --cn ' + config.cicsConsole,
     function (err, data, stderr) {
       typeof callback === 'function' && callback(err, data, stderr);
     }
@@ -75,7 +75,7 @@ function createMarble(color, quantity=1, cost=1, callback) {
 */
 function deleteMarble(color, callback) {
   cmd.get(
-    'bright console issue command "F ' + config.cicsRegion + ',' + config.cicsTran + ' DEL ' + color + '" --cn ' + config.cicsConsole,
+    'zowe console issue command "F ' + config.cicsRegion + ',' + config.cicsTran + ' DEL ' + color + '" --cn ' + config.cicsConsole,
     function (err, data, stderr) {
       typeof callback === 'function' && callback(err, data, stderr);
     }
@@ -91,7 +91,7 @@ function deleteMarble(color, callback) {
 function getMarbleQuantity(color, callback) {
   // Submit job, await completion
   cmd.get(
-    'bright jobs submit data-set "' + config.db2QueryJCL + '" --rff jobid --rft string',
+    'zowe jobs submit data-set "' + config.db2QueryJCL + '" --rff jobid --rft string',
     function (err, data, stderr) {
       if(err){
         throw err
@@ -105,7 +105,7 @@ function getMarbleQuantity(color, callback) {
             throw err
           } else {
             cmd.get(
-              'bright jobs view sfbi ' + jobId + ' 104',
+              'zowe jobs view sfbi ' + jobId + ' 104',
               function (err, data, stderr) {
                 if(err){
                   callback(err);
@@ -140,7 +140,7 @@ function getMarbleQuantity(color, callback) {
 */
 function updateMarble(color, quantity, callback) {
   cmd.get(
-    'bright console issue command "F ' + config.cicsRegion + ',' + config.cicsTran + ' UPD ' + color + " " + quantity + '" --cn ' + config.cicsConsole,
+    'zowe console issue command "F ' + config.cicsRegion + ',' + config.cicsTran + ' UPD ' + color + " " + quantity + '" --cn ' + config.cicsConsole,
     function (err, data, stderr) {
       typeof callback === 'function' && callback(err, data, stderr);
     }
